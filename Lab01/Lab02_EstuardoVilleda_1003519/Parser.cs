@@ -75,15 +75,15 @@ namespace Lab01_EstuardoVilleda_1003519
                 case TokenType.Star:
                     Match(_token.Tag);
                     return N() * F() * TP();
- 
+
                 case TokenType.Div:
                     Match(_token.Tag);
-                    return N() *(( 1 / F()) * TP());
+                    return N() * ((1 / F()) * TP());
 
                 //Se contempla el epsilon
                 default:
                     return 1; //se devuelve uno para que no afecte el resultado de la multiplicacion
-                    
+
             }
         }
 
@@ -104,7 +104,7 @@ namespace Lab01_EstuardoVilleda_1003519
                     return double.Parse(FP(_token.Value.ToString()));
 
                 default:
-                    throw new Exception("Syntax Error");
+                        throw new Exception("Syntax Error");
             }
 
 
