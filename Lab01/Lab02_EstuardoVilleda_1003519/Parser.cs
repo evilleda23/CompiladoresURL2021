@@ -21,14 +21,15 @@ namespace Lab01_EstuardoVilleda_1003519
                     return T() + EP();
 
                 default:
-                    return 0;
+                    throw new Exception("Syntax Error");
+                   
 
             }
         }
 
         private double EP() 
         {
-            double t = 0; double ep = 0;
+       
             switch (_token.Tag)
             {
 
@@ -42,7 +43,7 @@ namespace Lab01_EstuardoVilleda_1003519
 
                 //Se contempla el epsilon
                 default:
-                    return 0;
+                    return 0; //se devuelve 0 para que no afecte las sumas
                    
             }
         }
@@ -81,7 +82,7 @@ namespace Lab01_EstuardoVilleda_1003519
 
                 //Se contempla el epsilon
                 default:
-                    return 1;
+                    return 1; //se devuelve uno para que no afecte el resultado de la multiplicacion
                     
             }
         }
@@ -89,7 +90,7 @@ namespace Lab01_EstuardoVilleda_1003519
         private double F()
         {
            
-            double num = 0;
+            double num;
             switch (_token.Tag)
             {
 
@@ -103,7 +104,7 @@ namespace Lab01_EstuardoVilleda_1003519
                     return double.Parse(FP(_token.Value.ToString()));
 
                 default:
-                    return 0;
+                    throw new Exception("Syntax Error");
             }
 
 
@@ -148,7 +149,7 @@ namespace Lab01_EstuardoVilleda_1003519
             }
 
             Match(TokenType.EOF);
-            return 0;
+            return E(); //si ya no hay tokens, no devuelve nada, si hay token y no es valido, devuelve sintax error
         }
     }
 }

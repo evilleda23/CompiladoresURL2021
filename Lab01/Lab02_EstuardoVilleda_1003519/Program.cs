@@ -7,20 +7,28 @@ namespace Lab01_EstuardoVilleda_1003519
     {
         static void Main(string[] args)
         {
-            try
+            Parser parser = new Parser();
+            do
             {
-                string regexp = Console.ReadLine();
-                Scanner scanner = new Scanner(regexp);
-                Parser parser = new Parser();
-                Console.WriteLine(parser.Parse(regexp));
-                Console.WriteLine("OK");
-                Console.ReadKey();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.ReadKey();
-            }
+                try
+                {                
+                    
+                        Console.WriteLine("Ingresa la cadena de operaciones");
+                        string regexp = Console.ReadLine();
+                        Scanner scanner = new Scanner(regexp);
+
+                        Console.WriteLine(parser.Parse(regexp));
+                        Console.WriteLine("OK");                
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                   
+                }
+                Console.WriteLine("Deseas Continuar? Y/N");
+            } while (Console.ReadLine().ToLower().Equals("y") ? true : false);
+            
              
           
         }
