@@ -59,7 +59,7 @@ namespace Lab01_EstuardoVilleda_1003519
                                 default:
                                 throw new Exception("Lex Error");
                            
-                        }
+                        }//end switch
                 
                 _index++;
                 

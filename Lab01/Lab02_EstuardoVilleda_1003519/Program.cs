@@ -9,7 +9,6 @@ namespace Lab01_EstuardoVilleda_1003519
         {
             try
             {
-
                 string regexp = Console.ReadLine();
                 Scanner scanner = new Scanner(regexp);
                 Parser parser = new Parser();
@@ -19,7 +18,6 @@ namespace Lab01_EstuardoVilleda_1003519
             }
             catch (Exception ex)
             {
-
                 Console.WriteLine(ex.Message);
                 Console.ReadKey();
             }

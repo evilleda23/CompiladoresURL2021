@@ -11,17 +11,14 @@ namespace Lab01_EstuardoVilleda_1003519
 
         private double E() 
         {
-            double t = 0; double ep = 0;
+       
             switch (_token.Tag)
             {
                 
                 case TokenType.Lparen:
                 case TokenType.Number:
-                case TokenType.Minus:
-                    t = T();
-                    ep = EP();
-                    return t+ep;
-                    //return T() + EP();
+                case TokenType.Minus:                  
+                    return T() + EP();
 
                 default:
                     return 0;
@@ -37,17 +34,11 @@ namespace Lab01_EstuardoVilleda_1003519
 
                 case TokenType.Plus:
                     Match(_token.Tag);
-                    t = T();
-                    ep = EP();
-                    return t + ep;
-                //return T() + EP();
+                return T() + EP();
 
                 case TokenType.Minus:
                     Match(_token.Tag);
-                    t = T();
-                    ep = EP();
-                    return -t + ep;
-                //return T() - EP();
+                    return -T() + EP();
 
                 //Se contempla el epsilon
                 default:
@@ -58,17 +49,17 @@ namespace Lab01_EstuardoVilleda_1003519
 
         private double T() 
         {
-            return G() * F() * TP();
+            return N() * F() * TP();
 
         }
 
-        private double G()
+        private double N()
         {
             switch (_token.Tag)
             {
                 case TokenType.Minus:
                     Match(_token.Tag);
-                    return -1*G();
+                    return -N();
 
                 default:
                     return 1;
@@ -82,11 +73,11 @@ namespace Lab01_EstuardoVilleda_1003519
             {
                 case TokenType.Star:
                     Match(_token.Tag);
-                    return G() * F() * TP();
+                    return N() * F() * TP();
  
                 case TokenType.Div:
                     Match(_token.Tag);
-                    return G() *(( 1 / F()) * TP());
+                    return N() *(( 1 / F()) * TP());
 
                 //Se contempla el epsilon
                 default:
@@ -98,15 +89,15 @@ namespace Lab01_EstuardoVilleda_1003519
         private double F()
         {
            
-            double nume = 0;
+            double num = 0;
             switch (_token.Tag)
             {
 
                 case TokenType.Lparen:
                     Match(TokenType.Lparen);
-                    nume= E();
+                    num= E();
                     Match(TokenType.Rparen);
-                    return nume;
+                    return num;
 
                 case TokenType.Number: 
                     return double.Parse(FP(_token.Value.ToString()));
@@ -141,7 +132,7 @@ namespace Lab01_EstuardoVilleda_1003519
             }
             else
             {
-                throw new Exception("Error de sintaxis");
+                throw new Exception("Syntax Error");
             }
         }
         public double Parse(string regexp) {
@@ -149,15 +140,11 @@ namespace Lab01_EstuardoVilleda_1003519
             _token = _scanner.GetToken();
 
             switch (_token.Tag)
-            {
-               
+            {             
                 case TokenType.Lparen:                                                              
                 case TokenType.Number:
                 case TokenType.Minus:
-                    return E();
-                  
-                
-                    
+                    return E();                 
             }
 
             Match(TokenType.EOF);
