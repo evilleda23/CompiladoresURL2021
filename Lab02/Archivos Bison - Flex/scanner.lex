@@ -14,7 +14,7 @@ and		[aA][nN][dD]
 {not}		return not;
 {or}		return or;
 {and}		return and;
-[\n,(,)]		return yytext[0];
+[\n()]		return yytext[0];
 .			printf("Error\n");
 
 %%

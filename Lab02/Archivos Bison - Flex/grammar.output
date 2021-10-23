@@ -1,0 +1,225 @@
+Grammar
+
+    0 $accept: lines $end
+
+    1 lines: lines bexpr '\n'
+    2      | lines '\n'
+    3      | /* empty */
+
+    4 bexpr: bexpr or bterm
+    5      | bterm
+
+    6 bterm: bterm and bfactor
+    7      | bfactor
+
+    8 bfactor: not bfactor
+    9        | '(' bexpr ')'
+   10        | true
+   11        | false
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'\n' (10) 1 2
+'(' (40) 9
+')' (41) 9
+error (256)
+true (258) 10
+false (259) 11
+not (260) 8
+or (261) 4
+and (262) 6
+
+
+Nonterminals, with rules where they appear
+
+$accept (11)
+    on left: 0
+lines (12)
+    on left: 1 2 3, on right: 0 1 2
+bexpr (13)
+    on left: 4 5, on right: 1 4 9
+bterm (14)
+    on left: 6 7, on right: 4 5 6
+bfactor (15)
+    on left: 8 9 10 11, on right: 6 7 8
+
+
+state 0
+
+    0 $accept: . lines $end
+
+    $default  reduce using rule 3 (lines)
+
+    lines  go to state 1
+
+
+state 1
+
+    0 $accept: lines . $end
+    1 lines: lines . bexpr '\n'
+    2      | lines . '\n'
+
+    $end   shift, and go to state 2
+    true   shift, and go to state 3
+    false  shift, and go to state 4
+    not    shift, and go to state 5
+    '\n'   shift, and go to state 6
+    '('    shift, and go to state 7
+
+    bexpr    go to state 8
+    bterm    go to state 9
+    bfactor  go to state 10
+
+
+state 2
+
+    0 $accept: lines $end .
+
+    $default  accept
+
+
+state 3
+
+   10 bfactor: true .
+
+    $default  reduce using rule 10 (bfactor)
+
+
+state 4
+
+   11 bfactor: false .
+
+    $default  reduce using rule 11 (bfactor)
+
+
+state 5
+
+    8 bfactor: not . bfactor
+
+    true   shift, and go to state 3
+    false  shift, and go to state 4
+    not    shift, and go to state 5
+    '('    shift, and go to state 7
+
+    bfactor  go to state 11
+
+
+state 6
+
+    2 lines: lines '\n' .
+
+    $default  reduce using rule 2 (lines)
+
+
+state 7
+
+    9 bfactor: '(' . bexpr ')'
+
+    true   shift, and go to state 3
+    false  shift, and go to state 4
+    not    shift, and go to state 5
+    '('    shift, and go to state 7
+
+    bexpr    go to state 12
+    bterm    go to state 9
+    bfactor  go to state 10
+
+
+state 8
+
+    1 lines: lines bexpr . '\n'
+    4 bexpr: bexpr . or bterm
+
+    or    shift, and go to state 13
+    '\n'  shift, and go to state 14
+
+
+state 9
+
+    5 bexpr: bterm .
+    6 bterm: bterm . and bfactor
+
+    and  shift, and go to state 15
+
+    $default  reduce using rule 5 (bexpr)
+
+
+state 10
+
+    7 bterm: bfactor .
+
+    $default  reduce using rule 7 (bterm)
+
+
+state 11
+
+    8 bfactor: not bfactor .
+
+    $default  reduce using rule 8 (bfactor)
+
+
+state 12
+
+    4 bexpr: bexpr . or bterm
+    9 bfactor: '(' bexpr . ')'
+
+    or   shift, and go to state 13
+    ')'  shift, and go to state 16
+
+
+state 13
+
+    4 bexpr: bexpr or . bterm
+
+    true   shift, and go to state 3
+    false  shift, and go to state 4
+    not    shift, and go to state 5
+    '('    shift, and go to state 7
+
+    bterm    go to state 17
+    bfactor  go to state 10
+
+
+state 14
+
+    1 lines: lines bexpr '\n' .
+
+    $default  reduce using rule 1 (lines)
+
+
+state 15
+
+    6 bterm: bterm and . bfactor
+
+    true   shift, and go to state 3
+    false  shift, and go to state 4
+    not    shift, and go to state 5
+    '('    shift, and go to state 7
+
+    bfactor  go to state 18
+
+
+state 16
+
+    9 bfactor: '(' bexpr ')' .
+
+    $default  reduce using rule 9 (bfactor)
+
+
+state 17
+
+    4 bexpr: bexpr or bterm .
+    6 bterm: bterm . and bfactor
+
+    and  shift, and go to state 15
+
+    $default  reduce using rule 4 (bexpr)
+
+
+state 18
+
+    6 bterm: bterm and bfactor .
+
+    $default  reduce using rule 6 (bterm)
